@@ -1,6 +1,6 @@
 #include "PathFinder/IPathFinder.h"
 
 class PathFinderFactory {
-public:
-  IPathFinder *Astar();
+  public:
+    IPathFinder *Astar();
 };
