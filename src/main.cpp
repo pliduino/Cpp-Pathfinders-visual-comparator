@@ -1,77 +1,117 @@
 #include "Edge.h"
+#include "Graph.h"
 #include "PathFinderFactory.h"
 
+#include <chrono>
 #include <cmath>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 #include <time.h>
 #include <tuple>
 #include <vector>
 
-double GetDistance(std::tuple<int, int> x, std::tuple<int, int> y);
+double GetDistance(std::tuple<int, int> verticeA,
+                   std::tuple<int, int> verticeB);
+
+void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
+                   std::fstream &fs);
 
 int main(int argc, char *argv[]) {
+    std::fstream fs;
+    std::stringstream ss;
+
     // Setting random seed
     srand(time(NULL));
+    if (argc != 5) {
+        std::cerr << "Wrong arguments";
+        return -1;
+    }
 
+    // Getting variables
     int nSize = std::atoi(argv[1]);
     int kSize = std::atoi(argv[2]);
     int nTests = std::atoi(argv[3]);
+    char *algorithmType = argv[4];
 
-    std::vector<std::tuple<int, int>> vertices(nSize, std::tuple<int, int>());
+    ss << nSize << ", " << kSize << ", " << algorithmType;
 
-    std::vector<std::vector<Edge>> arestas(nSize, std::vector<Edge>(kSize));
+    fs.open(ss.str(), std::fstream::out);
 
-    GenerateVertices(vertices, nSize);
-
-    GenerateArestas(vertices, arestas, nSize, kSize);
-
-    int startVertice = rand() % (nSize);
-
-    // Garante um vértice final diferente
-    int endVertice;
-    do {
-        endVertice = rand() % (nSize);
-    } while (endVertice == startVertice);
+    Graph graph = Graph(nSize, kSize);
 
     // ----------------------------------------------------------------------------
 
     PathFinderFactory factory = PathFinderFactory();
-    IPathFinder *test = factory.Astar();
+    IPathFinder *pathFinder = factory.Create(algorithmType);
 
-    test->FindPath(vertices, arestas);
+    fs << std::fixed;
+    fs << std::setprecision(4);
 
-    delete test;
+    fs << "Algorithm: " << algorithmType << std::endl << std::endl;
+
+    TryPathFinder(graph, nTests, pathFinder, fs);
+
+    delete pathFinder;
     return 0;
 }
 
-void GenerateVertices(std::vector<std::tuple<int, int>> &vertices, int nSize) {
-    for (int i = 0; i < nSize; i++) {
-        std::get<0>(vertices[i]) = rand() % (nSize + 1);
-        std::get<1>(vertices[i]) = rand() % (nSize + 1);
-    }
-}
+void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
+                   std::fstream &fs) {
+    int startVertice;
+    int endVertice;
+    double totalExecTime;
+    double totalDist;
+    int succesfulPaths = 0;
 
-void GenerateArestas(std::vector<std::tuple<int, int>> &vertices,
-                     std::vector<std::vector<Edge>> &arestas, int nSize,
-                     int kSize) {
-    for (int i = 0, x; i < nSize; i++) {
-        for (int k = 0; k < kSize; k++) {
+    for (int i = 0; i < nTests; i++) {
+        startVertice = rand() % (graph.nSize);
 
-            int verticeConnection;
-            do {
-                verticeConnection = rand() % (nSize);
-            } while (verticeConnection == i);
+        // Garante um vértice final diferente do inicial
+        do {
+            endVertice = rand() % (graph.nSize);
+        } while (endVertice == startVertice);
 
-            double distance =
-                GetDistance(vertices[i], vertices[verticeConnection]);
+        auto start = std::chrono::high_resolution_clock::now();
 
-            arestas[i][k] = Edge(verticeConnection, distance);
+        Node *pathNode = pathFinder->FindPath(graph, startVertice, endVertice);
+
+        auto end = std::chrono::high_resolution_clock::now();
+
+        double execTime =
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+                .count();
+
+        totalExecTime += execTime;
+
+        fs << "Try number: " << i + 1 << std::endl;
+        fs << "Start: " << startVertice << std::endl;
+        fs << "Goal: " << endVertice << std::endl;
+
+        if (pathNode->weight != -1) {
+            std::pair<double, std::string *> values =
+                Node::GetPathDistance(pathNode);
+
+            double distance = values.first;
+            std::string *pathString = values.second;
+
+            fs << "Path: " << *pathString << std::endl;
+
+            fs << "Distance: " << distance << std::endl;
+
+            totalDist += distance;
+            succesfulPaths++;
+        } else {
+            fs << "Path not found." << std::endl;
         }
-    }
-}
 
-double GetDistance(std::tuple<int, int> x, std::tuple<int, int> y) {
-    double temp = pow(get<0>(x) - get<0>(y), 2) + pow(get<1>(x) - get<1>(y), 2);
-    return sqrt(temp);
+        fs << "Execution Time: ";
+        fs << execTime << "ms" << std::endl << std::endl;
+    }
+
+    fs << "Mean Distance: " << totalDist / (float)succesfulPaths << std::endl;
+    fs << "Mean Execution Time: ";
+    fs << totalExecTime / (float)nTests << "ms" << std::endl;
 }

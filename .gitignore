@@ -2,3 +2,4 @@
 /output
 /.vscode
 .clang-format
+/**/*.o
