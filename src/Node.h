@@ -25,22 +25,4 @@ struct Node {
         weight = _weight;
         path = _path;
     }
-
-    static std::pair<double, std::string *> GetPathDistance(Node *endNode) {
-        Node *parent = endNode;
-        Node *child;
-        double distance;
-        std::string *pathString;
-
-        do {
-            child = parent;
-            parent = child->path;
-
-            pathString->append((*child).index + ", ");
-            distance += child->weight;
-
-        } while (parent->path != NULL);
-
-        return {distance, pathString};
-    }
 };

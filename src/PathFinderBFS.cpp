@@ -5,40 +5,35 @@
 #include <stdlib.h>
 
 Node *PathFinderBFS::FindPath(Graph graph, int startVertice, int endVertice) {
-    std::queue<Node> queue;
+    std::queue<Node *> queue;
     bool visited[graph.nSize];
-    queue.push(Node(startVertice, 0));
+    queue.push(new Node(startVertice, 0, NULL));
 
     return Pop(graph, queue, endVertice, visited);
 }
 
-Node *PathFinderBFS::Pop(Graph graph, std::queue<Node> &queue, int endVertice,
+Node *PathFinderBFS::Pop(Graph graph, std::queue<Node *> &queue, int endVertice,
                          bool visited[]) {
-    // while (true) {
+    while (true) {
+        if (queue.empty()) {
+            return new Node();
+        }
 
-    //     Node curNode = queue.front();
-    //     queue.pop();
+        Node *curNode = queue.front();
+        queue.pop();
 
-    //     for (auto const &[nextIndex, value] : graph.arestas[curNode.index]) {
-    //         Node(nextIndex, curNode.weight + value, curNode.path);
+        if (visited[curNode->index]) {
+            continue;
+        }
+        visited[curNode->index] = true;
 
-    //         if (nextIndex == endVertice) {
-    //             curNode.weight += value;
-    //             (*curNode.path.push_back(nextIndex);
-    //             return curNode;
-    //         }
+        for (auto const &[nextIndex, value] : graph.arestas[curNode->index]) {
 
-    //         if (visited[nextIndex]) {
-    //             continue;
-    //         }
+            if (nextIndex == endVertice) {
+                return new Node(nextIndex, curNode->weight + value, curNode);
+            }
 
-    //         visited[nextIndex] = true;
-    //         queue.push(Node(nextIndex, curNode.weight + value,
-    //         curNode.path));
-    //     }
-
-    //     if (queue.empty()) {
-    return new Node();
-    //     }
-    // }
+            queue.push(new Node(nextIndex, curNode->weight + value, curNode));
+        }
+    }
 }

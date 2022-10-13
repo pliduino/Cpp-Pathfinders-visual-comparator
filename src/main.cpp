@@ -1,6 +1,7 @@
 #include "Edge.h"
 #include "Graph.h"
 #include "PathFinderFactory.h"
+#include "Utils.h"
 
 #include <chrono>
 #include <cmath>
@@ -12,6 +13,8 @@
 #include <time.h>
 #include <tuple>
 #include <vector>
+
+#define OUTPUT_PATH "log/"
 
 double GetDistance(std::tuple<int, int> verticeA,
                    std::tuple<int, int> verticeB);
@@ -36,7 +39,9 @@ int main(int argc, char *argv[]) {
     int nTests = std::atoi(argv[3]);
     char *algorithmType = argv[4];
 
-    ss << nSize << ", " << kSize << ", " << algorithmType;
+    ss << OUTPUT_PATH << nSize << ", " << kSize << ", " << nTests << ", "
+       << algorithmType << ", "
+       << ".log";
 
     fs.open(ss.str(), std::fstream::out);
 
@@ -50,10 +55,14 @@ int main(int argc, char *argv[]) {
     fs << std::fixed;
     fs << std::setprecision(4);
 
-    fs << "Algorithm: " << algorithmType << std::endl << std::endl;
+    fs << "Algorithm: " << algorithmType << std::endl;
+    fs << "nSize: " << nSize << std::endl;
+    fs << "kSize: " << kSize << std::endl;
+    fs << "nTests: " << nTests << std::endl << std::endl;
 
     TryPathFinder(graph, nTests, pathFinder, fs);
 
+    fs.close();
     delete pathFinder;
     return 0;
 }
@@ -81,8 +90,9 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
         auto end = std::chrono::high_resolution_clock::now();
 
         double execTime =
-            std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
-                .count();
+            std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+                .count() /
+            1000000.0;
 
         totalExecTime += execTime;
 
@@ -91,8 +101,7 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
         fs << "Goal: " << endVertice << std::endl;
 
         if (pathNode->weight != -1) {
-            std::pair<double, std::string *> values =
-                Node::GetPathDistance(pathNode);
+            std::pair<double, std::string *> values = GetPathDistance(pathNode);
 
             double distance = values.first;
             std::string *pathString = values.second;
@@ -111,6 +120,8 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
         fs << execTime << "ms" << std::endl << std::endl;
     }
 
+    fs << "Sucessfull Attempts: " << succesfulPaths << "/" << nTests
+       << std::endl;
     fs << "Mean Distance: " << totalDist / (float)succesfulPaths << std::endl;
     fs << "Mean Execution Time: ";
     fs << totalExecTime / (float)nTests << "ms" << std::endl;

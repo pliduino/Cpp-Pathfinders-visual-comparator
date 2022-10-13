@@ -8,6 +8,7 @@ Node *PathFinderDFS::FindPath(Graph graph, int startVertice, int endVertice) {
     std::stack<Node *> stack;
     bool visited[graph.nSize];
     stack.push(new Node(startVertice, 0));
+    visited[startVertice] = true;
 
     return Pop(graph, stack, endVertice, visited);
 }
@@ -20,21 +21,21 @@ Node *PathFinderDFS::Pop(Graph graph, std::stack<Node *> &stack, int endVertice,
         stack.pop();
 
         for (auto const &[nextIndex, value] : graph.arestas[curNode->index]) {
-            Node(nextIndex, curNode->weight + value, curNode->path);
-
-            if (nextIndex == endVertice) {
-                Node *endNode = new Node(nextIndex, value, curNode);
-                return endNode;
-            }
 
             if (visited[nextIndex]) {
                 continue;
             }
 
-            visited[nextIndex] = true;
-            stack.push(new Node(nextIndex, value, curNode));
+            if (nextIndex == endVertice) {
+                Node *endNode =
+                    new Node(nextIndex, curNode->weight + value, curNode);
+                return endNode;
+            }
+
+            stack.push(new Node(nextIndex, curNode->weight + value, curNode));
         }
 
+        visited[curNode->index] = true;
         if (stack.empty()) {
             return new Node();
         }

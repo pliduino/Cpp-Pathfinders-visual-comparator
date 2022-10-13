@@ -8,4 +8,9 @@ IPathFinder *PathFinderFactory::Create(char *algorithm) {
         return new PathFinderDFS();
     if (std::strcmp(algorithm, "BFS") == 0)
         return new PathFinderBFS();
+    if (std::strcmp(algorithm, "Dijkstra") == 0)
+        return new PathFinderDijkstra();
+    if (std::strcmp(algorithm, "BestFirst") == 0)
+        return new PathFinderBestFirst();
+    return NULL;
 }
