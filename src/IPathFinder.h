@@ -6,5 +6,6 @@
 class IPathFinder {
   public:
     virtual ~IPathFinder(){};
-    virtual Node *FindPath(Graph graph, int startVertice, int endVertice) = 0;
+    virtual std::vector<Node> *FindPath(Graph graph, int startVertice,
+                                        int endVertice) = 0;
 };

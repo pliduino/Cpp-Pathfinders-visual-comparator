@@ -3,9 +3,8 @@
 #include <iostream>
 #include <queue>
 
-Node *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
-                                   int endVertice) {
-
+std::vector<Node> *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
+                                                int endVertice) {
     std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
     std::queue<int> queue;
 
@@ -37,7 +36,7 @@ Node *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
         }
 
         if (queue.empty()) {
-            return &(*nodes)[endVertice];
+            return nodes;
         }
     }
 }

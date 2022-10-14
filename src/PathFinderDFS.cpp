@@ -4,17 +4,25 @@
 #include <stack>
 #include <stdlib.h>
 
-Node *PathFinderDFS::FindPath(Graph graph, int startVertice, int endVertice) {
+std::vector<Node> *PathFinderDFS::FindPath(Graph graph, int startVertice,
+                                           int endVertice) {
+
+    std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
     std::stack<Node *> stack;
     bool visited[graph.nSize] = {false};
-    stack.push(new Node(startVertice, 0));
+
     visited[startVertice] = true;
 
-    return Pop(graph, stack, endVertice, visited);
-}
+    for (int i = 0; i < graph.nSize; i++) {
+        (*nodes)[i].path = NULL;
+        (*nodes)[i].index = i;
+    }
+    (*nodes)[startVertice].weight = 0;
 
-Node *PathFinderDFS::Pop(Graph graph, std::stack<Node *> &stack, int endVertice,
-                         bool visited[]) {
+    stack.push((*nodes)[startVertice].SetValues(0, NULL));
+
+    //---------------
+
     while (true) {
 
         Node *curNode = stack.top();
@@ -27,17 +35,19 @@ Node *PathFinderDFS::Pop(Graph graph, std::stack<Node *> &stack, int endVertice,
             }
 
             if (nextIndex == endVertice) {
-                Node *endNode =
-                    new Node(nextIndex, curNode->weight + value, curNode);
-                return endNode;
+                (*nodes)[nextIndex].SetValues(curNode->weight + value, curNode);
+
+                return nodes;
             }
 
-            stack.push(new Node(nextIndex, curNode->weight + value, curNode));
+            visited[nextIndex] = true;
+
+            stack.push((*nodes)[nextIndex].SetValues(curNode->weight + value,
+                                                     curNode));
         }
 
-        visited[curNode->index] = true;
         if (stack.empty()) {
-            return new Node();
+            return nodes;
         }
     }
 }

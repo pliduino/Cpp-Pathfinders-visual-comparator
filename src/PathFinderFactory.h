@@ -9,5 +9,5 @@
 
 class PathFinderFactory {
   public:
-    IPathFinder *Create(char *algorithm);
+    IPathFinder *Create(std::string algorithm);
 };

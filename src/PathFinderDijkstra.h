@@ -5,5 +5,6 @@
 
 class PathFinderDijkstra : public IPathFinder {
   public:
-    Node *FindPath(Graph graph, int startVertice, int endVertice) override;
+    std::vector<Node> *FindPath(Graph graph, int startVertice,
+                                int endVertice) override;
 };

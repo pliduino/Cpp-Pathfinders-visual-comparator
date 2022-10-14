@@ -4,35 +4,51 @@
 #include <queue>
 #include <stdlib.h>
 
-Node *PathFinderBFS::FindPath(Graph graph, int startVertice, int endVertice) {
+std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
+                                           int endVertice) {
+
+    std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
     std::queue<Node *> queue;
+
     bool visited[graph.nSize] = {false};
-    queue.push(new Node(startVertice, 0, NULL));
 
-    return Pop(graph, queue, endVertice, visited);
-}
+    visited[startVertice] = true;
 
-Node *PathFinderBFS::Pop(Graph graph, std::queue<Node *> &queue, int endVertice,
-                         bool visited[]) {
+    for (int i = 0; i < graph.nSize; i++) {
+        (*nodes)[i].path = NULL;
+        (*nodes)[i].index = i;
+    }
+    (*nodes)[startVertice].weight = 0;
+
+    queue.push((*nodes)[startVertice].SetValues(0, NULL));
+
+    //---------------
+
     while (true) {
-        if (queue.empty()) {
-            return new Node();
-        }
 
         Node *curNode = queue.front();
         queue.pop();
 
         for (auto const &[nextIndex, value] : graph.arestas[curNode->index]) {
+
             if (visited[nextIndex]) {
                 continue;
             }
 
             if (nextIndex == endVertice) {
-                return new Node(nextIndex, curNode->weight + value, curNode);
+                (*nodes)[nextIndex].SetValues(curNode->weight + value, curNode);
+
+                return nodes;
             }
+
             visited[nextIndex] = true;
 
-            queue.push(new Node(nextIndex, curNode->weight + value, curNode));
+            queue.push((*nodes)[nextIndex].SetValues(curNode->weight + value,
+                                                     curNode));
+        }
+
+        if (queue.empty()) {
+            return nodes;
         }
     }
 }

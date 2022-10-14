@@ -4,18 +4,26 @@
 #include <queue>
 #include <stdlib.h>
 
-Node *PathFinderBestFirst::FindPath(Graph graph, int startVertice,
-                                    int endVertice) {
+std::vector<Node> *PathFinderBestFirst::FindPath(Graph graph, int startVertice,
+                                                 int endVertice) {
 
-    Node *curNode = new Node(startVertice, 0, NULL);
-    int nextNode;
+    std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
     bool visited[graph.nSize] = {false};
+    int nextNode;
 
+    for (int i = 0; i < graph.nSize; i++) {
+        (*nodes)[i].path = NULL;
+        (*nodes)[i].index = i;
+    }
+    (*nodes)[startVertice].weight = 0;
+
+    Node *curNode = &(*nodes)[startVertice];
     //------------------------
 
     while (true) {
-        int minValue = INFINITY;
+        double minValue = INFINITY;
         nextNode = -1;
+        visited[curNode->index] = true;
 
         for (auto const &[nextIndex, value] : graph.arestas[curNode->index]) {
             if (visited[nextIndex]) {
@@ -33,16 +41,15 @@ Node *PathFinderBestFirst::FindPath(Graph graph, int startVertice,
         if (nextNode == -1) {
             curNode = curNode->path;
             if (curNode == NULL) {
-                return new Node();
+                return nodes;
             }
-
         } else {
-            curNode = new Node(nextNode, curNode->weight + minValue, curNode);
-            visited[nextNode] = true;
+            curNode = (*nodes)[nextNode].SetValues(curNode->weight + minValue,
+                                                   curNode);
         }
 
         if (curNode->index == endVertice) {
-            return curNode;
+            return nodes;
         }
     }
 }

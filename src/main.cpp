@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     int nSize = std::atoi(argv[1]);
     int kSize = std::atoi(argv[2]);
     int nTests = std::atoi(argv[3]);
-    char *algorithmType = argv[4];
+    std::string algorithmType = argv[4];
 
     ss << OUTPUT_PATH << nSize << ", " << kSize << ", " << nTests << ", "
        << algorithmType << ", "
@@ -85,7 +85,8 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        Node *pathNode = pathFinder->FindPath(graph, startVertice, endVertice);
+        std::vector<Node> *nodes =
+            pathFinder->FindPath(graph, startVertice, endVertice);
 
         auto end = std::chrono::high_resolution_clock::now();
 
@@ -100,8 +101,9 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
         fs << "Start: " << startVertice << std::endl;
         fs << "Goal: " << endVertice << std::endl;
 
-        if (pathNode->weight != -1) {
-            std::pair<double, std::string *> values = GetPathDistance(pathNode);
+        if ((*nodes)[endVertice].weight != -1) {
+            std::pair<double, std::string *> values =
+                GetPathDistance(&(*nodes)[endVertice]);
 
             double distance = values.first;
             std::string *pathString = values.second;
@@ -119,7 +121,7 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
         fs << "Execution Time: ";
         fs << execTime << "ms" << std::endl << std::endl;
 
-        delete pathNode;
+        delete nodes;
     }
 
     fs << "Sucessfull Attempts: " << succesfulPaths << "/" << nTests

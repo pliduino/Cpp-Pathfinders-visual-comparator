@@ -1,6 +1,7 @@
 #include "Utils.h"
 
 #include <iomanip>
+#include <iostream>
 
 double GetDistance(std::pair<int, int> verticeA, std::pair<int, int> verticeB) {
     double temp = pow(verticeA.first - verticeB.first, 2) +
@@ -21,6 +22,7 @@ std::pair<double, std::string *> GetPathDistance(Node *endNode) {
         pathString << child->index << " <- ";
 
     } while (parent->path != NULL);
+
     pathString << parent->index;
 
     return {distance, new std::string(pathString.str())};
