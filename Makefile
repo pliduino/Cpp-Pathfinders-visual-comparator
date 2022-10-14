@@ -81,24 +81,8 @@ run: all
 	./$(OUTPUTMAIN) $(NSIZE) $(KSIZE) $(NTESTS) $(ALGORITHM)
 	@echo Executing 'run: all' complete!
 
-runall2: all
-	./$(OUTPUTMAIN) $(NSIZE) $(KSIZE) $(NTESTS) DFS
-	./$(OUTPUTMAIN) $(NSIZE) $(KSIZE) $(NTESTS) BFS
-	./$(OUTPUTMAIN) $(NSIZE) $(KSIZE) $(NTESTS) Dijkstra
-	./$(OUTPUTMAIN) $(NSIZE) $(KSIZE) $(NTESTS) BestFirst
-	@echo Executing 'runall2: all' complete!
-
 runall: all
-	./$(OUTPUTMAIN) 5000 3 20 DFS
-	./$(OUTPUTMAIN) 5000 5 20 DFS
-	./$(OUTPUTMAIN) 5000 7 20 DFS
-	./$(OUTPUTMAIN) 5000 3 20 BFS
-	./$(OUTPUTMAIN) 5000 5 20 BFS
-	./$(OUTPUTMAIN) 5000 7 20 BFS
-	./$(OUTPUTMAIN) 5000 3 20 Dijkstra
-	./$(OUTPUTMAIN) 5000 5 20 Dijkstra
-	./$(OUTPUTMAIN) 5000 7 20 Dijkstra
-	./$(OUTPUTMAIN) 5000 3 20 BestFirst
-	./$(OUTPUTMAIN) 5000 5 20 BestFirst
-	./$(OUTPUTMAIN) 5000 7 20 BestFirst
+	./$(OUTPUTMAIN) 5000 3 20 DFS BFS Dijkstra BestFirst A*
+	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst A*
+	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst A*
 	@echo Executing 'runall: all' complete!

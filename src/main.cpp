@@ -16,20 +16,15 @@
 
 #define OUTPUT_PATH "log/"
 
-double GetDistance(std::tuple<int, int> verticeA,
-                   std::tuple<int, int> verticeB);
-
 void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
                    std::fstream &fs);
 
 int main(int argc, char *argv[]) {
-    std::fstream fs;
-    std::stringstream ss;
 
     // Setting random seed
     srand(time(NULL));
-    if (argc != 5) {
-        std::cerr << "Wrong arguments";
+    if (argc < 5) {
+        std::cerr << "Not enough arguments";
         return -1;
     }
 
@@ -37,33 +32,38 @@ int main(int argc, char *argv[]) {
     int nSize = std::atoi(argv[1]);
     int kSize = std::atoi(argv[2]);
     int nTests = std::atoi(argv[3]);
-    std::string algorithmType = argv[4];
 
-    ss << OUTPUT_PATH << nSize << ", " << kSize << ", " << nTests << ", "
-       << algorithmType << ", "
-       << ".log";
+    for (int i = 4; i < argc; i++) {
+        std::fstream fs;
+        std::stringstream ss;
+        std::string algorithmType = argv[i];
 
-    fs.open(ss.str(), std::fstream::out);
+        ss << OUTPUT_PATH << nSize << ", " << kSize << ", " << nTests << ", "
+           << algorithmType << ", "
+           << ".log";
 
-    Graph graph = Graph(nSize, kSize);
+        fs.open(ss.str(), std::fstream::out);
 
-    // ----------------------------------------------------------------------------
+        Graph graph = Graph(nSize, kSize);
 
-    PathFinderFactory factory = PathFinderFactory();
-    IPathFinder *pathFinder = factory.Create(algorithmType);
+        // ----------------------------------------------------------------------------
 
-    fs << std::fixed;
-    fs << std::setprecision(4);
+        PathFinderFactory factory = PathFinderFactory();
+        IPathFinder *pathFinder = factory.Create(algorithmType);
 
-    fs << "Algorithm: " << algorithmType << std::endl;
-    fs << "nSize: " << nSize << std::endl;
-    fs << "kSize: " << kSize << std::endl;
-    fs << "nTests: " << nTests << std::endl << std::endl;
+        fs << std::fixed;
+        fs << std::setprecision(4);
 
-    TryPathFinder(graph, nTests, pathFinder, fs);
+        fs << "Algorithm: " << algorithmType << std::endl;
+        fs << "nSize: " << nSize << std::endl;
+        fs << "kSize: " << kSize << std::endl;
+        fs << "nTests: " << nTests << std::endl << std::endl;
 
-    fs.close();
-    delete pathFinder;
+        TryPathFinder(graph, nTests, pathFinder, fs);
+
+        fs.close();
+        delete pathFinder;
+    }
     return 0;
 }
 
