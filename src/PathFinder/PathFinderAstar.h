@@ -1,9 +1,8 @@
-#include "IPathFinder.h"
-#include <stack>
+#include "PathFinder/IPathFinder.h"
 
 #pragma once
 
-class PathFinderDFS : public IPathFinder {
+class PathFinderAstar : public IPathFinder {
   public:
     std::vector<Node> *FindPath(Graph graph, int startVertice,
                                 int endVertice) override;

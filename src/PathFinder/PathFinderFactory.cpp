@@ -1,11 +1,11 @@
-#include "PathFinderFactory.h"
+#include "PathFinder/PathFinderFactory.h"
 
-#include "PathFinderA.h"
-#include "PathFinderAstar.h"
-#include "PathFinderBFS.h"
-#include "PathFinderBestFirst.h"
-#include "PathFinderDFS.h"
-#include "PathFinderDijkstra.h"
+#include "PathFinder/PathFinderA.h"
+#include "PathFinder/PathFinderAstar.h"
+#include "PathFinder/PathFinderBFS.h"
+#include "PathFinder/PathFinderBestFirst.h"
+#include "PathFinder/PathFinderDFS.h"
+#include "PathFinder/PathFinderDijkstra.h"
 #include <string>
 
 IPathFinder *PathFinderFactory::Create(std::string algorithm) {

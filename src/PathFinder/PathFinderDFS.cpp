@@ -1,15 +1,14 @@
-#include "PathFinderBFS.h"
+#include "PathFinder/PathFinderDFS.h"
 
 #include <iostream>
-#include <queue>
+#include <stack>
 #include <stdlib.h>
 
-std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
+std::vector<Node> *PathFinderDFS::FindPath(Graph graph, int startVertice,
                                            int endVertice) {
 
     std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
-    std::queue<Node *> queue;
-
+    std::stack<Node *> stack;
     bool visited[graph.nSize] = {false};
 
     visited[startVertice] = true;
@@ -20,14 +19,14 @@ std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
     }
     (*nodes)[startVertice].weight = 0;
 
-    queue.push((*nodes)[startVertice].SetValues(0, NULL));
+    stack.push((*nodes)[startVertice].SetValues(0, NULL));
 
     //---------------
 
     while (true) {
 
-        Node *curNode = queue.front();
-        queue.pop();
+        Node *curNode = stack.top();
+        stack.pop();
 
         for (auto const &[nextIndex, value] : graph.arestas[curNode->index]) {
 
@@ -43,11 +42,11 @@ std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
 
             visited[nextIndex] = true;
 
-            queue.push((*nodes)[nextIndex].SetValues(curNode->weight + value,
+            stack.push((*nodes)[nextIndex].SetValues(curNode->weight + value,
                                                      curNode));
         }
 
-        if (queue.empty()) {
+        if (stack.empty()) {
             return nodes;
         }
     }

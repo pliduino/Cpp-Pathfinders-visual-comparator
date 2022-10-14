@@ -1,4 +1,4 @@
-#include "IPathFinder.h"
+#include "PathFinder/IPathFinder.h"
 
 #pragma once
 

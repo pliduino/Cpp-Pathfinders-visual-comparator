@@ -1,4 +1,5 @@
-#include "Node.h"
+#include "Graph/Node.h"
+
 #include <cmath>
 #include <string>
 #include <tuple>

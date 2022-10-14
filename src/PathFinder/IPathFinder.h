@@ -1,5 +1,5 @@
-#include "Graph.h"
-#include "Node.h"
+#include "Graph/Graph.h"
+#include "Graph/Node.h"
 
 #pragma once
 

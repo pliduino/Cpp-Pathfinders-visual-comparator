@@ -1,6 +1,5 @@
-#include "Edge.h"
-#include "Graph.h"
-#include "PathFinderFactory.h"
+#include "Graph/Graph.h"
+#include "PathFinder/PathFinderFactory.h"
 #include "Utils.h"
 
 #include <chrono>

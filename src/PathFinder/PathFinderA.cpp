@@ -1,4 +1,4 @@
-#include "PathFinderA.h"
+#include "PathFinder/PathFinderA.h"
 
 std::vector<Node> *PathFinderA::FindPath(Graph graph, int startVertice,
                                          int endVertice) {

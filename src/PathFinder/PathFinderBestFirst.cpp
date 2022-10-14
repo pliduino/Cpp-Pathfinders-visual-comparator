@@ -1,4 +1,4 @@
-#include "PathFinderBestFirst.h"
+#include "PathFinder/PathFinderBestFirst.h"
 
 #include <iostream>
 #include <queue>

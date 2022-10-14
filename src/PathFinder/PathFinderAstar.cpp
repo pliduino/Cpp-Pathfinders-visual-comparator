@@ -1,4 +1,4 @@
-#include "PathFinderAstar.h"
+#include "PathFinder/PathFinderAstar.h"
 #include "Utils.h"
 
 #include <iostream>

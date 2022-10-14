@@ -1,5 +1,5 @@
-#include "PathFinderDijkstra.h"
-#include "Node.h"
+#include "PathFinder/PathFinderDijkstra.h"
+#include "Graph/Node.h"
 #include <iostream>
 #include <queue>
 

@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "Graph/Graph.h"
 
 Graph::Graph(int _nSize, int _kSize) {
     nSize = _nSize;
