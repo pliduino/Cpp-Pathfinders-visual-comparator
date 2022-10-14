@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
     int nSize = std::atoi(argv[1]);
     int kSize = std::atoi(argv[2]);
     int nTests = std::atoi(argv[3]);
+    Graph graph = Graph(nSize, kSize);
 
     for (int i = 4; i < argc; i++) {
         std::fstream fs;
@@ -44,13 +45,10 @@ int main(int argc, char *argv[]) {
 
         fs.open(ss.str(), std::fstream::out);
 
-        Graph graph = Graph(nSize, kSize);
-
         // ----------------------------------------------------------------------------
 
         PathFinderFactory factory = PathFinderFactory();
         IPathFinder *pathFinder = factory.Create(algorithmType);
-
         fs << std::fixed;
         fs << std::setprecision(4);
 
@@ -85,6 +83,7 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
 
         auto start = std::chrono::high_resolution_clock::now();
 
+        // Executa pathfinder
         std::vector<Node> *nodes =
             pathFinder->FindPath(graph, startVertice, endVertice);
 

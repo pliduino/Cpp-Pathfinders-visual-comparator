@@ -7,11 +7,12 @@
 #include "PathFinderDFS.h"
 #include "PathFinderDijkstra.h"
 #include <string>
+
 IPathFinder *PathFinderFactory::Create(std::string algorithm) {
-    if (algorithm == "A*")
-        return new PathFinderAstar();
     if (algorithm == "A")
         return new PathFinderA();
+    if (algorithm == "Astar")
+        return new PathFinderAstar();
     if (algorithm == "DFS")
         return new PathFinderDFS();
     if (algorithm == "BFS")

@@ -82,7 +82,7 @@ run: all
 	@echo Executing 'run: all' complete!
 
 runall: all
-	./$(OUTPUTMAIN) 5000 3 20 DFS BFS Dijkstra BestFirst A*
-	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst A*
-	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst A*
+	./$(OUTPUTMAIN) 5000 3 20 DFS BFS Dijkstra BestFirst Astar
+	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst Astar
+	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst Astar
 	@echo Executing 'runall: all' complete!

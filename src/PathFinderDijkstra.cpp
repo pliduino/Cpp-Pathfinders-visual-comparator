@@ -7,6 +7,7 @@ std::vector<Node> *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
                                                 int endVertice) {
     std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
     std::queue<int> queue;
+    int steps;
 
     for (int i = 0; i < graph.nSize; i++) {
         (*nodes)[i].path = NULL;
@@ -23,7 +24,7 @@ std::vector<Node> *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
     //------------------------
 
     while (true) {
-
+        steps++;
         int curNode = queue.front();
         queue.pop();
 
@@ -36,6 +37,7 @@ std::vector<Node> *PathFinderDijkstra::FindPath(Graph graph, int startVertice,
         }
 
         if (queue.empty()) {
+            std::cout << "Dijkstra Steps: " << ++steps << std::endl;
             return nodes;
         }
     }
