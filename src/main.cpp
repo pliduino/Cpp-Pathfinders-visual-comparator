@@ -118,6 +118,8 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
 
         fs << "Execution Time: ";
         fs << execTime << "ms" << std::endl << std::endl;
+
+        delete pathNode;
     }
 
     fs << "Sucessfull Attempts: " << succesfulPaths << "/" << nTests

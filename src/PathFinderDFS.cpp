@@ -6,7 +6,7 @@
 
 Node *PathFinderDFS::FindPath(Graph graph, int startVertice, int endVertice) {
     std::stack<Node *> stack;
-    bool visited[graph.nSize];
+    bool visited[graph.nSize] = {false};
     stack.push(new Node(startVertice, 0));
     visited[startVertice] = true;
 

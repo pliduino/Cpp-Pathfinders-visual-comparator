@@ -9,7 +9,7 @@ Node *PathFinderBestFirst::FindPath(Graph graph, int startVertice,
 
     Node *curNode = new Node(startVertice, 0, NULL);
     int nextNode;
-    bool visited[graph.nSize];
+    bool visited[graph.nSize] = {false};
 
     //------------------------
 
