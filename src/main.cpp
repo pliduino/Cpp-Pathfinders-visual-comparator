@@ -14,7 +14,7 @@
 #include <vector>
 
 #define OUTPUT_PATH "log/"
-#define LOGSTEP
+// #define LOGSTEP
 
 void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
                    std::fstream &fs);

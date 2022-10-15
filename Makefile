@@ -7,7 +7,7 @@
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -D LOGSTEP -std=c++17 -Wall -Wextra -g
+CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -87,6 +87,29 @@ runall: all
 	./$(OUTPUTMAIN) 5000 3 20 DFS BFS Dijkstra BestFirst Astar
 	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst Astar
 	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst Astar
+	@echo Executing 'runall: all' complete!
+
+runAD: all
+	./$(OUTPUTMAIN) 5000 3 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 10000 3 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 15000 3 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 20000 3 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 50000 3 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 5000 5 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 10000 5 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 15000 5 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 20000 5 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 50000 5 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 5000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 10000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 15000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 20000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 50000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 5000 20 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 10000 20 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 15000 20 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 20000 20 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 50000 20 20 Dijkstra Astar
 	@echo Executing 'runall: all' complete!
 
 love:
