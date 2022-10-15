@@ -8,14 +8,13 @@
 
 std::vector<Node> *PathFinderAstar::FindPath(Graph graph, int startVertice,
                                              int endVertice) {
-
+    std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
+    std::stack<int> stack;
 #ifdef LOGSTEP
     std::fstream fs;
     fs.open("steplog/step.log", std::fstream::out);
-#endif // !LOGSTEP
-
-    std::vector<Node> *nodes = new std::vector<Node>(graph.nSize, Node());
-    std::stack<int> stack;
+    fs << "A* " << graph.nSize << " " << graph.kSize << std::endl;
+#endif
 
     std::map<double, int> map;
 
@@ -58,6 +57,7 @@ std::vector<Node> *PathFinderAstar::FindPath(Graph graph, int startVertice,
 #ifdef LOGSTEP
             fs << curNode << " 5" << std::endl;
 #endif
+
             // std::cout << "A* Steps: " << steps << std::endl;
             return nodes;
         }

@@ -1,5 +1,4 @@
 #include "PathFinder/IPathFinder.h"
-#include <stack>
 
 #pragma once
 

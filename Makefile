@@ -7,7 +7,7 @@
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++17 -Wall -Wextra -g -D printstep
+CXXFLAGS	:= -D LOGSTEP -std=c++17 -Wall -Wextra -g
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -25,6 +25,8 @@ INCLUDE	:= include
 
 # define lib directory
 LIB		:= lib
+
+LOVE := love2d
 
 
 MAIN	:= main
@@ -86,3 +88,6 @@ runall: all
 	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst Astar
 	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst Astar
 	@echo Executing 'runall: all' complete!
+
+love:
+	love $(LOVE)

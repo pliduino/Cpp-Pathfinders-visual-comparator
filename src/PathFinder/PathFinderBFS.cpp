@@ -13,6 +13,8 @@ std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
 #ifdef LOGSTEP
     std::fstream fs;
     fs.open("steplog/step.log", std::fstream::out);
+    fs << "Alg: BFS NSize: " << graph.nSize << " KSize: " << graph.kSize
+       << std::endl;
 #endif
 
     bool visited[graph.nSize] = {false};
@@ -51,7 +53,8 @@ std::vector<Node> *PathFinderBFS::FindPath(Graph graph, int startVertice,
 
             if (nextIndex == endVertice) {
 #ifdef LOGSTEP
-                fs << nextIndex << " 5" << std::endl;
+                fs << curNode->index << " 3" << std::endl;
+                fs << endVertice << " 5" << std::endl;
 #endif
                 (*nodes)[nextIndex].SetValues(curNode->weight + value, curNode);
 

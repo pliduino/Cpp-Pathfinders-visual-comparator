@@ -14,6 +14,7 @@
 #include <vector>
 
 #define OUTPUT_PATH "log/"
+#define LOGSTEP
 
 void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
                    std::fstream &fs);
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 4; i < argc; i++) {
         std::fstream fs;
+
         std::stringstream ss;
         std::string algorithmType = argv[i];
 
@@ -72,6 +74,11 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
     double totalDist;
     int succesfulPaths = 0;
 
+#ifdef LOGSTEP
+    std::fstream fsPath;
+    fsPath.open("steplog/path.log", std::fstream::out);
+#endif
+
     for (int i = 0; i < nTests; i++) {
         startVertice = rand() % (graph.nSize);
 
@@ -105,7 +112,9 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
 
             double distance = values.first;
             std::string *pathString = values.second;
-
+#ifdef LOGSTEP
+            fsPath << *pathString << std::endl;
+#endif
             fs << "Path: " << *pathString << std::endl;
 
             fs << "Distance: " << distance << std::endl;
@@ -121,7 +130,9 @@ void TryPathFinder(Graph graph, int nTests, IPathFinder *pathFinder,
 
         delete nodes;
     }
-
+#ifdef LOGSTEP
+    fsPath.close();
+#endif
     fs << "Sucessfull Attempts: " << succesfulPaths << "/" << nTests
        << std::endl;
     fs << "Mean Distance: " << totalDist / (float)succesfulPaths << std::endl;
