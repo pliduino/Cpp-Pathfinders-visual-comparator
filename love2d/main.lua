@@ -1,16 +1,17 @@
 FStep = io.open("steplog/step.log", "r")
 FPath = assert(io.open("steplog/path.log", "r"))
 
-Screen_size = 900
+Screen_size = 950
+Padding = 5
+N_states = 100
+Step_size = (Screen_size) / N_states
 
 
 States = {}
 Positions = {}
 Edges = {}
 
-N_states = 500
-N_edges = 3
-Step_size = (Screen_size) / N_states
+
 
 Path = {}
 
@@ -23,7 +24,7 @@ end
 
 function LoadPath()
     local pathString = FPath:read("*l")
-    Path = SplitInt(pathString)
+    Path = SplitStrToInt(pathString)
 
 end
 
@@ -35,16 +36,16 @@ function DrawPath()
         end
         love.graphics.setColor(200, 0, 255)
         local nextpos = Path[i + 1] * 1 + 1
-        love.graphics.line(Positions[Path[i] + 1][1] * Step_size + 15, Positions[Path[i] + 1][2] * Step_size + 15,
-            Positions[nextpos][1] * Step_size + 15,
-            Positions[nextpos][2] * Step_size + 15)
+        love.graphics.line(Positions[Path[i] + 1][1] * Step_size, Positions[Path[i] + 1][2] * Step_size,
+            Positions[nextpos][1] * Step_size,
+            Positions[nextpos][2] * Step_size)
 
         i = i + 1
     end
 end
 
-function SplitInt(str)
-    result = {};
+function SplitStrToInt(str)
+    local result = {};
 
     for match in str:gmatch("%w+") do
         table.insert(result, match * 1);
@@ -63,7 +64,7 @@ function LoadValues()
 
     for line in vertices:gmatch("([^\n]*)\n?") do
         if (line ~= "") then
-            Positions[i] = SplitInt(line)
+            Positions[i] = SplitStrToInt(line)
             States[i] = 0
             N_states = N_states + 1
             i = i + 1
@@ -73,7 +74,7 @@ function LoadValues()
     i = 1
     for line in arestas:gmatch("([^\n]*)\n?") do
         if (line ~= "") then
-            Edges[i] = SplitInt(line)
+            Edges[i] = SplitStrToInt(line)
             Edges[i][1] = Edges[i][1] + 1
             Edges[i][2] = Edges[i][2] + 1
 
@@ -91,13 +92,13 @@ function UpdateStates()
         return
     end
 
-    local splitted = SplitInt(line)
+    local splitted = SplitStrToInt(line)
     if line ~= "#" then
         States[splitted[1] + 1] = tonumber(splitted[2])
     end
 
 
-    Sleep(.0)
+    Sleep(.3)
 end
 
 function love.load()
@@ -106,6 +107,7 @@ function love.load()
     love.graphics.setBackgroundColor(255, 255, 255)
     LoadValues()
     LoadPath()
+    Sleep(5)
 end
 
 function love.update(dt)
@@ -116,8 +118,8 @@ function love.draw()
     local activeNode
     local endFlag = false
     for i, vertex in ipairs(Positions) do
-        local x = vertex[1] + 10
-        local y = vertex[2] + 10
+        local x = vertex[1]
+        local y = vertex[2]
         local state = States[i]
 
 
@@ -145,9 +147,9 @@ function love.draw()
         if endFlag == false then
             for index, edge in ipairs(Edges) do
                 if (edge[1] == activeNode) or (edge[2] == activeNode) then
-                    love.graphics.line(Positions[edge[1]][1] * Step_size + 15, Positions[edge[1]][2] * Step_size + 15,
-                        Positions[edge[2]][1] * Step_size + 15,
-                        Positions[edge[2]][2] * Step_size + 15)
+                    love.graphics.line(Positions[edge[1]][1] * Step_size, Positions[edge[1]][2] * Step_size,
+                        (Positions[edge[2]][1] * Step_size),
+                        (Positions[edge[2]][2] * Step_size))
                 end
 
             end

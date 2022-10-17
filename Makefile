@@ -7,7 +7,7 @@
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
+CXXFLAGS	:= -std=c++17 -Wall -Wextra -g -D LOGSTEP
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -87,6 +87,9 @@ runall: all
 	./$(OUTPUTMAIN) 5000 3 20 DFS BFS Dijkstra BestFirst Astar
 	./$(OUTPUTMAIN) 5000 5 20 DFS BFS Dijkstra BestFirst Astar
 	./$(OUTPUTMAIN) 5000 7 20 DFS BFS Dijkstra BestFirst Astar
+	./$(OUTPUTMAIN) 5000 10 20 DFS BFS Dijkstra BestFirst Astar
+	./$(OUTPUTMAIN) 5000 15 20 DFS BFS Dijkstra BestFirst Astar
+	./$(OUTPUTMAIN) 5000 20 20 DFS BFS Dijkstra BestFirst Astar
 	@echo Executing 'runall: all' complete!
 
 runAD: all
@@ -101,6 +104,11 @@ runAD: all
 	./$(OUTPUTMAIN) 20000 5 20 Dijkstra Astar
 	./$(OUTPUTMAIN) 50000 5 20 Dijkstra Astar
 	./$(OUTPUTMAIN) 5000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 10000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 15000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 20000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 50000 7 20 Dijkstra Astar
+	./$(OUTPUTMAIN) 5000 10 20 Dijkstra Astar
 	./$(OUTPUTMAIN) 10000 7 20 Dijkstra Astar
 	./$(OUTPUTMAIN) 15000 7 20 Dijkstra Astar
 	./$(OUTPUTMAIN) 20000 7 20 Dijkstra Astar

@@ -58,7 +58,7 @@ std::vector<Node> *PathFinderAstar::FindPath(Graph graph, int startVertice,
             fs << curNode << " 5" << std::endl;
 #endif
 
-            // std::cout << "A* Steps: " << steps << std::endl;
+            std::cout << "A* Steps: " << steps << std::endl;
             return nodes;
         }
 

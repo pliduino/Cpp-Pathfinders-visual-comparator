@@ -51,7 +51,7 @@ void Graph::GenerateArestas() {
             arestas[verticeConnection].insert({i, distance});
 #ifdef LOGSTEP
             fs << i << " " << verticeConnection << std::endl;
-#endif LOGSTEP
+#endif
         }
     }
 }

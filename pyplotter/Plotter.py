@@ -1,10 +1,8 @@
-from genericpath import isfile
-from plotly.subplots import make_subplots
 import plotly.express as px
 import pandas as pd
 import os
 
-dir = "log"
+DIR = "log"
 
 
 def load_file(file):
@@ -30,42 +28,56 @@ def load_file(file):
     return fileData
 
 
-df = pd.DataFrame()
+def figures_to_html(figs):
+    with open("pyplotter/plot.html", 'w') as dashboard:
+        dashboard.write("<html><head></head><body>" + "\n")
+        for fig in figs:
+            inner_html = fig.to_html().split('<body>')[1].split('</body>')[0]
+            dashboard.write(inner_html)
+        dashboard.write("</body></html>" + "\n")
 
-for filename in os.listdir(dir):
-    path = os.path.join(dir, filename)
 
-    if os.path.isfile(path):
-        s = path.split()
-        print(s)
-        if s[0] == "log\\5000,":
-            f = open(path, "r")
-            dft = pd.DataFrame(data=load_file(f))
-            df = pd.concat([df, dft], ignore_index=True)
+def plot_bar():
+    df = pd.DataFrame()
 
-print(df)
-bar = px.bar(df, x="kSize", y="mean_exec",
-                   color='algorithm', barmode='group',
-                   height=400)
+    for filename in os.listdir(DIR):
+        path = os.path.join(DIR, filename)
 
-df2 = pd.DataFrame()
+        if os.path.isfile(path):
+            s = path.split()
+            if s[0] == DIR + "\\5000,":
+                f = open(path, "r")
+                dft = pd.DataFrame(data=load_file(f))
+                df = pd.concat([df, dft], ignore_index=True)
 
-for filename in os.listdir(dir):
-    path = os.path.join(dir, filename)
+    df = df.sort_values(by="kSize", axis="index")
 
-    if os.path.isfile(path):
-        if path.find("Astar") != -1 or path.find("Dijkstra") != -1:
-            f = open(path, "r")
-            dft = pd.DataFrame(data=load_file(f))
-            df2 = pd.concat([df2, dft], ignore_index=True)
+    return px.bar(df, x="kSize", y="mean_exec",
+                  color='algorithm', barmode='group',
+                  height=400)
 
-df2 = df2.sort_values(by="nSize", axis="index")
 
-line = px.line(df2, x="nSize", y=("mean_exec"),
-               color="algorithm", line_dash="kSize",
-               height=1000, markers=True)
+def plot_line():
 
-#fig = line
-fig = bar
+    df2 = pd.DataFrame()
 
-fig.show()
+    for filename in os.listdir(DIR):
+        path = os.path.join(DIR, filename)
+
+        if os.path.isfile(path):
+            if path.find("Astar") != -1 or path.find("Dijkstra") != -1:
+                f = open(path, "r")
+                dft = pd.DataFrame(data=load_file(f))
+                df2 = pd.concat([df2, dft], ignore_index=True)
+
+    df2 = df2.sort_values(by="nSize", axis="index")
+    print(df2)
+    return px.line(df2, x="nSize", y="mean_exec",
+                   color="algorithm", line_dash="kSize",
+                   height=1000, markers=True)
+
+
+bar = plot_bar()
+line = plot_line()
+
+figures_to_html([bar, line])
