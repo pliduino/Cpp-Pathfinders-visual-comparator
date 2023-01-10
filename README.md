@@ -3,44 +3,62 @@
 ## Table of Contents
 
 - [About](#about)
-- [Getting Started](#getting_started)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+  - [Execution](#execution)
+  - [Visualization](#visualization)
 
-## About <a name = "about"></a>
+## About
+Project created using Love2d (Lua), python and C++ to visualize how different search algorithms work and how good they really are. The code can be extended to any search algorithm.
 
-Write about 1-2 paragraphs describing the purpose of your project.
+<br>
 
-## Getting Started <a name = "getting_started"></a>
+## Usage
+<br>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+- ### Execution
 
-### Prerequisites
+You need to set the following variables to execute the program a single time:
 
-What things you need to install the software and how to install them.
+    - NSIZE — Number of nodes
+    - KSIZE — Number of vertices
+    - NTESTS — Number of tests
+    - ALGORITHM — Algorithm used, they can be Astar, Djikstra, Bestfirst, BFS, DFS
 
-```
-Give examples
-```
+You can set and execute them by running the following:
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
-```
-Give the example
+```make
+    make run NSIZE=5000 KSIZE=3 NTESTS=20 ALGORITHM=Astar
 ```
 
-And repeat
 
+You can also execute some default configurations to generate all the logs at the same time:
+
+```make
+    make runall
 ```
-until finished
+
+```make
+    make runAD
 ```
 
-End with an example of getting some data out of the system or using it for a little demo.
 
-## Usage <a name = "usage"></a>
+---
 
-Add notes about how to use the system.
+- ### Visualization
+
+By default you don't create the necessary logs for animations, to generate them simply add the flag LOGSTEP to the Makefile:
+
+```make
+    CXXFLAGS := -std=c++17 -Wall -Wextra -g -D LOGSTEP
+```
+
+Be careful as these logs are pretty expensive and mess up the output logs as the execution time gets significantly higher.
+
+To read and animate previously created logs just run the following code:
+
+```make
+    make love
+```
+---
+
+    There's also a python script hardcoded to make a graph with runall and runAD logs using plotly, just run Plotter.py and open the generated plot.html file.
