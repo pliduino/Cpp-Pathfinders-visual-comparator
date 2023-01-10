@@ -1,4 +1,4 @@
-# Project Title
+# Pathfinders
 
 ## Table of Contents
 
