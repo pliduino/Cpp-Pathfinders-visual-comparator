@@ -10,10 +10,7 @@
 ## About
 Project created using Love2d (Lua), python and C++ to visualize how different search algorithms work and how good they really are. The code can be extended to any search algorithm.
 
-<br>
-
 ## Usage
-<br>
 
 - ### Execution
 
@@ -61,4 +58,4 @@ To read and animate previously created logs just run the following code:
 ```
 ---
 
-    There's also a python script hardcoded to make a graph with runall and runAD logs using plotly, just run Plotter.py and open the generated plot.html file.
+There's also a python script hardcoded to make a graph with runall and runAD logs using plotly, just run Plotter.py and open the generated plot.html file.
