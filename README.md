@@ -10,6 +10,8 @@
 ## About
 Project created using Love2d (Lua), python and C++ to visualize how different search algorithms work and how good they really are. The code can be extended to any search algorithm.
 
+[[Example Video](https://drive.google.com/file/d/1yCe8oGCrvHqzURpSuNnRBI8mlRmzEXNt/edit)]
+
 ## Usage
 
 - ### Execution
